@@ -8,7 +8,8 @@ const { uuid } = require('uuidv4');
 
 const Notes = () => {
 
-	const [filteredNotes, setFilteredNotes] = useState([])
+	const [filteredNotes, setFilteredNotes] = useState([]);
+
 	const {
 		inputText,
 		notes,
@@ -59,13 +60,25 @@ const Notes = () => {
 	// useEffect(() => {
 	// 	let filteredNotes = notes.filter(note => note.label.includes(viewByLabel))
 	// 	setFilteredNotes([...filteredNotes])
-  // }, [viewByLabel || notes]);
+	// }, [viewByLabel || notes]);
+
+	useEffect(() => {
+		const data = localStorage.getItem('notes');
+		if(data) {
+			setNotes(JSON.parse(data));
+		}
+	}, [])
+	
+	useEffect(() => {
+		localStorage.setItem('notes', JSON.stringify(notes));
+	})
 
 	return (
 		<>
 			<div className="wrapper">
 				<section className="form">
 					<textarea
+						autoFocus
 						onChange={e => setInputText(e.target.value)}
 						rows={inputText ? 4 : 2}
 						placeholder="Take a note..."

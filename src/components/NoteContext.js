@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useState, useEffect } from "react";
 
 export const NoteContext = createContext();
 
@@ -31,7 +31,7 @@ export const NoteProvider = ({ children }) => {
 	const [notes, setNotes] = useState([...defaultNotes]);
 	const [editMode, setEditMode] = useState(false);
 	const [viewByLabel, setViewByLabel] = useState("all");
-	
+
 
   return (
     <NoteContext.Provider

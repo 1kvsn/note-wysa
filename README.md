@@ -2,6 +2,11 @@
 
 * Features:
 
+- Add Notes
+- Add Labels (not mandatory)
+- Edit and Delete notes
+- persistant data in localStorage
+
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
