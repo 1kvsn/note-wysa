@@ -80,7 +80,7 @@ const Notes = () => {
 					<textarea
 						autoFocus
 						onChange={e => setInputText(e.target.value)}
-						rows={inputText ? 4 : 2}
+						rows={inputText ? 6 : 2}
 						placeholder="Take a note..."
 						value={inputText}
 						className="input"

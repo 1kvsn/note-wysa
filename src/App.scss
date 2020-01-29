@@ -9,7 +9,6 @@ $primary-bg: #f2f2f2;
 // header styles
 
 .header {
-	// width: 100vw;
 	background-color: black;
 	padding: 10px;
 
@@ -72,7 +71,7 @@ $primary-bg: #f2f2f2;
 	display: flex;
 	flex-wrap: wrap;
 	// justify-items: left;
-	// justify-content: center;
+	justify-content: center;
 	
 	.note {
 		width: 280px;
