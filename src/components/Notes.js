@@ -1,14 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import Note from './Note';
-import View from './View';
 import { NoteContext } from './NoteContext';
 
 const { uuid } = require('uuidv4');
 
 const Notes = () => {
-
-	const [filteredNotes, setFilteredNotes] = useState([]);
 
 	const {
 		inputText,
@@ -19,8 +16,6 @@ const Notes = () => {
 		setNotes,
 		editMode,
 		setEditMode,
-		viewByLabel,
-		setViewByLabel
 	} = useContext(NoteContext);
 
 
@@ -37,8 +32,8 @@ const Notes = () => {
 
 		if (editMode) {
 			setEditMode(false);
-			setLabel(["all"]);
 		}
+		setLabel([]);
 	}
 
 	const handleDelete = (id) => {
@@ -47,28 +42,26 @@ const Notes = () => {
 	}
 
 	const handleEdit = (id) => {
+		if (editMode) return;
+
 		let selectedNote = notes.find(note => note.id === id);
 		handleDelete(selectedNote.id);
 		setInputText(selectedNote.text);
+
+		if (selectedNote.label.length) {
+			setLabel(selectedNote.label)
+		}
 		setEditMode(true);
 	}
 
-	// useEffect(() => {
-	// 	console.log("running becoz notes updated");
-  // }, [notes]);
-
-	// useEffect(() => {
-	// 	let filteredNotes = notes.filter(note => note.label.includes(viewByLabel))
-	// 	setFilteredNotes([...filteredNotes])
-	// }, [viewByLabel || notes]);
 
 	useEffect(() => {
 		const data = localStorage.getItem('notes');
-		if(data) {
+		if (data) {
 			setNotes(JSON.parse(data));
 		}
 	}, [])
-	
+
 	useEffect(() => {
 		localStorage.setItem('notes', JSON.stringify(notes));
 	})
@@ -85,12 +78,13 @@ const Notes = () => {
 						value={inputText}
 						className="input"
 					/>
-					<select 
-						className="select-label" 
-						value={label[0]} 
-						onChange={e => setLabel([e.target.value, ...label])}
+					<select
+						className="select-label"
+						value={label[0] || "Add label"}
+						onChange={e => setLabel([e.target.value])}
+
 					>
-						<option selected hidden>Add label</option>
+						<option value="Add label" hidden>Add label</option>
 						<option value="home">Home</option>
 						<option value="work">Work</option>
 						<option value="personal">Personal</option>
@@ -100,13 +94,16 @@ const Notes = () => {
 					<button className="button" type="submit" onClick={handleSubmit}>{editMode ? "Save" : "Add"}</button>
 				</section>
 
-				{/* <View /> */}
-
 				<section className="note-container">
 					{
 						notes.map(note => {
 							return (
-								<Note key={note.id} noteData={note} handleEdit={handleEdit} handleDelete={handleDelete} />
+								<Note
+									key={note.id}
+									noteData={note}
+									handleEdit={handleEdit}
+									handleDelete={handleDelete}
+								/>
 							)
 						})
 					}
