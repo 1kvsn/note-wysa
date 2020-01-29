@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { NoteContext } from './NoteContext';
 
 
-const View = ({ filteredNotes }) => {
+const View = ({ handleView }) => {
 
 	const {
 		notes,
@@ -18,17 +18,15 @@ const View = ({ filteredNotes }) => {
 	} = useContext(NoteContext);
 
 	return (
-		<div className="view-container">
-			<div className="view">
+		<div className="">
+			<div>
 				<p>Total Notes: {notes && notes.length}</p>
 				<select
-					className="filter-label"
+					className="select-label"
 					value={viewByLabel}
 					onChange={e => setViewByLabel(e.target.value)}
 				>
-					<option value="none" selected disabled hidden>
-						Select label
-      		</option>
+					<option selected >all</option>
 					<option value="home">Home</option>
 					<option value="work">Work</option>
 					<option value="personal">Personal</option>
@@ -36,11 +34,6 @@ const View = ({ filteredNotes }) => {
 					<option value="fun">Fun</option>
 				</select>
 			</div>
-			{
-				viewByLabel && filteredNotes.length === 0 ? (
-					<p>No notes present with this label. Displaying all notes.</p>
-				) : null
-			}
 		</div>
 	)
 }

@@ -37,7 +37,7 @@ const Notes = () => {
 
 		if (editMode) {
 			setEditMode(false);
-			setLabel([]);
+			setLabel(["all"]);
 		}
 	}
 
@@ -53,19 +53,22 @@ const Notes = () => {
 		setEditMode(true);
 	}
 
-	useEffect(() => {
-		let filteredNotes = notes.filter(note => note.label.includes(viewByLabel))
-		setFilteredNotes([...filteredNotes])
-		console.log(filteredNotes);
-	}, [viewByLabel || notes]);
+	// useEffect(() => {
+	// 	console.log("running becoz notes updated");
+  // }, [notes]);
+
+	// useEffect(() => {
+	// 	let filteredNotes = notes.filter(note => note.label.includes(viewByLabel))
+	// 	setFilteredNotes([...filteredNotes])
+	// }, [viewByLabel || notes]);
 
 	useEffect(() => {
 		const data = localStorage.getItem('notes');
-		if (data) {
+		if(data) {
 			setNotes(JSON.parse(data));
 		}
 	}, [])
-
+	
 	useEffect(() => {
 		localStorage.setItem('notes', JSON.stringify(notes));
 	})
@@ -82,10 +85,10 @@ const Notes = () => {
 						value={inputText}
 						className="input"
 					/>
-					<select
-						className="select-label"
-						value={label[0]}
-						onChange={e => setLabel([e.target.value])}
+					<select 
+						className="select-label" 
+						value={label[0]} 
+						onChange={e => setLabel([e.target.value, ...label])}
 					>
 						<option selected hidden>Add label</option>
 						<option value="home">Home</option>
@@ -97,28 +100,13 @@ const Notes = () => {
 					<button className="button" type="submit" onClick={handleSubmit}>{editMode ? "Save" : "Add"}</button>
 				</section>
 
-				<View filteredNotes={filteredNotes}/>
+				{/* <View /> */}
 
 				<section className="note-container">
-					
 					{
-						viewByLabel && filteredNotes.length ? filteredNotes.map(note => {
+						notes.map(note => {
 							return (
-								<Note
-									key={note.id}
-									noteData={note}
-									handleEdit={handleEdit}
-									handleDelete={handleDelete}
-								/>
-							)
-						}) : notes.map(note => {
-							return (
-								<Note
-									key={note.id}
-									noteData={note}
-									handleEdit={handleEdit}
-									handleDelete={handleDelete}
-								/>
+								<Note key={note.id} noteData={note} handleEdit={handleEdit} handleDelete={handleDelete} />
 							)
 						})
 					}
