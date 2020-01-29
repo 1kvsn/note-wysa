@@ -1,12 +1,14 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import Note from './Note';
+import View from './View';
 import { NoteContext } from './NoteContext';
 
 const { uuid } = require('uuidv4');
 
 const Notes = () => {
 
+	const [filteredNotes, setFilteredNotes] = useState([])
 	const {
 		inputText,
 		notes,
@@ -15,17 +17,23 @@ const Notes = () => {
 		setLabel,
 		setNotes,
 		editMode,
-		setEditMode
+		setEditMode,
+		viewByLabel,
+		setViewByLabel
 	} = useContext(NoteContext);
 
 
 	const handleSubmit = () => {
+		if (!inputText) return;
+
 		let newNote = {};
 		newNote.id = uuid();
 		newNote.text = inputText;
 		newNote.label = label;
+
 		setNotes([newNote, ...notes]);
 		setInputText("");
+
 		if (editMode) {
 			setEditMode(false);
 			setLabel(["all"]);
@@ -44,6 +52,15 @@ const Notes = () => {
 		setEditMode(true);
 	}
 
+	// useEffect(() => {
+	// 	console.log("running becoz notes updated");
+  // }, [notes]);
+
+	// useEffect(() => {
+	// 	let filteredNotes = notes.filter(note => note.label.includes(viewByLabel))
+	// 	setFilteredNotes([...filteredNotes])
+  // }, [viewByLabel || notes]);
+
 	return (
 		<>
 			<div className="wrapper">
@@ -55,16 +72,22 @@ const Notes = () => {
 						value={inputText}
 						className="input"
 					/>
-					<select value={label[0]} onChange={e => setLabel([e.target.value, ...label])}>
-						<option selected hidden>Choose label</option>
+					<select 
+						className="select-label" 
+						value={label[0]} 
+						onChange={e => setLabel([e.target.value, ...label])}
+					>
+						<option selected hidden>Add label</option>
 						<option value="home">Home</option>
 						<option value="work">Work</option>
 						<option value="personal">Personal</option>
 						<option value="finance">Finance</option>
 						<option value="fun">Fun</option>
 					</select>
-					<button type="submit" onClick={handleSubmit}>{editMode ? "Save" : "Add"}</button>
+					<button className="button" type="submit" onClick={handleSubmit}>{editMode ? "Save" : "Add"}</button>
 				</section>
+
+				{/* <View /> */}
 
 				<section className="note-container">
 					{

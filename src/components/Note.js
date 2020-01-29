@@ -23,14 +23,14 @@ const Note = ({ noteData, handleEdit, handleDelete }) => {
 	)
 }
 
+// renders labels on note
 const Labels = ({ label }) => {
-	console.log(label, 'this is label');
 	return (
 		<>
 			{
 				label.map(lb => {
 					return (
-						<p>{lb}</p>
+						<p className="label">{lb}</p>
 					)
 				})
 			}
