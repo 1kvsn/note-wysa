@@ -3,27 +3,39 @@ import editIcon from '../assets/images/edit-outline.svg';
 import deleteIcon from '../assets/images/delete.svg';
 
 
-class Note extends React.Component {
+const Note = ({ noteData, handleEdit, handleDelete }) => {
 
-	render() {
-		const note = this.props.data;
-		return (
-			<div>
-				{
-					note && (
-						<div className="note">
-							<p>{note.text}</p>
-							<div className="note-base">
-								<img src={editIcon} alt="edit" />
-								<p>{note.label}</p>
-								<img src={deleteIcon} alt="delete" />
-							</div>
+	return (
+		<div>
+			{
+				noteData && (
+					<div className="note">
+						<p>{noteData.text}</p>
+						<div className="note-base">
+							<img onClick={() => handleEdit(noteData.id)} src={editIcon} alt="edit" />
+							<Labels label={noteData.label} />
+							<img onClick={() => handleDelete(noteData.id)} src={deleteIcon} alt="delete" />
 						</div>
+					</div>
+				)
+			}
+		</div>
+	)
+}
+
+const Labels = ({ label }) => {
+	console.log(label, 'this is label');
+	return (
+		<>
+			{
+				label.map(lb => {
+					return (
+						<p>{lb}</p>
 					)
-				}
-			</div>
-		)
-	}
+				})
+			}
+		</>
+	)
 }
 
 export default Note;
