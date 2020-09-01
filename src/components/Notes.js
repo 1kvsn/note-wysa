@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, Fragment } from 'react';
 
 import Note from './Note';
 import { NoteContext } from './NoteContext';
@@ -67,7 +67,7 @@ const Notes = () => {
 	})
 
 	return (
-		<>
+		<Fragment>
 			<div className="wrapper">
 				<section className="form">
 					<textarea
@@ -82,7 +82,6 @@ const Notes = () => {
 						className="select-label"
 						value={label[0] || "Add label"}
 						onChange={e => setLabel([e.target.value])}
-
 					>
 						<option value="Add label" hidden>Add label</option>
 						<option value="home">Home</option>
@@ -91,25 +90,28 @@ const Notes = () => {
 						<option value="finance">Finance</option>
 						<option value="fun">Fun</option>
 					</select>
-					<button className="button" type="submit" onClick={handleSubmit}>{editMode ? "Save" : "Add"}</button>
+					<button 
+						className="button" 
+						type="submit" 
+						onClick={handleSubmit}>
+							{editMode ? "Save" : "Add"}
+					</button>
 				</section>
 
 				<section className="note-container">
 					{
-						notes.map(note => {
-							return (
+						notes.map(note => (
 								<Note
 									key={note.id}
 									noteData={note}
 									handleEdit={handleEdit}
 									handleDelete={handleDelete}
 								/>
-							)
-						})
+						))
 					}
 				</section>
 			</div>
-		</>
+		</Fragment>
 	)
 }
 

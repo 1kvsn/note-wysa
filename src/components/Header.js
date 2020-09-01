@@ -1,10 +1,12 @@
 import React from 'react';
+import KeepIcon from './../assets/images/keep.png';
 
 function Header() {
 	return (
 		<section className="header">
-			<div>
-				<p>Notes</p>
+			<div className="app-name">
+				<img src={KeepIcon} alt="keep note" />
+				<p>Keep Notes</p>
 			</div>
 		</section>
 	)
